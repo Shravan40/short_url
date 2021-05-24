@@ -141,35 +141,38 @@ We will have total 4 tables for the presented solution.
 
 1. Table 1 -> Users
 ##### Description : Users table will store the user related information
+```
 id:
 eamil:
 password:
 created_at:
 updated_at:
-
+```
 2. Table 2-> URLs
 ##### Description : URLs table will store the all the information related to URLs
+```
 id:
 long_url:
 short_url:
 user_id:
 created_at:
 updated_at:
-
+```
 3. Table 3 -> Analytics
 ##### Description : Analytics table will store all the information related to click and users.
+```
 id:
 short_url:
 ip_address:
 create_at:
-
+```
 4. Table 4 -> UrlGenerators
 ##### Description : UrlGenerators will be used to generate the short URLs.
+```
 id:
 last_number:
 create_at:
-
-
+```
 # Algorithm to generate the Short URLs
 
 We are going to follow the base62([a-z,A-Z,0-0]) for our URL generations.
@@ -199,5 +202,4 @@ func toBase62(num uint64) string {
    }
    return encoded
 }
-
 ```
