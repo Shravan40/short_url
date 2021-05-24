@@ -184,21 +184,18 @@ Log the generated number into the UrlGenerators table by checking it's uniquenes
 3. Make an entry into databse URLs table
 4. Return the the output of Base62 by added a prefix of "lin.ks/"
 
-Sample code to convert the number into Base62
+Sample python code to convert the number into Base62
 
 ```
-const (
-   base         uint64 = 62
-   characterSet        = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-)
+base = 62
+char_set = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-func toBase62(num uint64) string {
-   encoded := ""
-   for num > 0 {
-      rem := num % base
-      num /= base
-      encoded = string(characterSet[rem]) + encoded
-
+def to_base_62(number) string {
+   encoded = ""
+   while (number > 0) :
+      rem = number % base
+      number /= base
+      encoded = charactchar_set[rem]) + encoded
    }
    return encoded
 }
