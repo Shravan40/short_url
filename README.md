@@ -1,6 +1,6 @@
 # Requirement (Functional)
 
-1. System should create an unique URL link for each input per user.
+1. System should create an unique URL link for each unique input per user.
 2. System should return the original URL when requested with SHORT URL.
 3. User can delete the shortened link.
 4. Analytics
@@ -27,7 +27,7 @@
 ![BackEnd](images/back_end.jpg)
 
 
-### Note: Read:Write of system as per problem statement is 10:1
+### Note1: Read:Write of system as per problem statement is 10:1
 
 # Space Estimate
 
@@ -115,7 +115,9 @@ Response Params
 Response Params
 ```
 {
-    "message": "Short URL Deleted"
+    "message": "Click data generated",
+    "count": <some_value>,
+    "type": <Day/Total>
 }
 ```
 
@@ -124,9 +126,78 @@ Response Params
 Response Params
 ```
 {
-    "message": "Short URL Deleted",
+    "message": "People Data generated",
     "count": <some_value>,
     "type": <Day/Total>
-
 }
+```
+
+#### Note2: As of now example of only successful request is given.
+
+
+# Database Schema
+
+We will have total 4 tables for the presented solution.
+
+1. Table 1 -> Users
+##### Description : Users table will store the user related information
+id:
+eamil:
+password:
+created_at:
+updated_at:
+
+2. Table 2-> URLs
+##### Description : URLs table will store the all the information related to URLs
+id:
+long_url:
+short_url:
+user_id:
+created_at:
+updated_at:
+
+3. Table 3 -> Analytics
+##### Description : Analytics table will store all the information related to click and users.
+id:
+short_url:
+ip_address:
+create_at:
+
+4. Table 4 -> UrlGenerators
+##### Description : UrlGenerators will be used to generate the short URLs.
+id:
+last_number:
+create_at:
+
+
+# Algorithm to generate the Short URLs
+
+We are going to follow the base62([a-z,A-Z,0-0]) for our URL generations.
+Total possible URLS = 62^6 = 56B
+
+1. Generate a random number between (100, 56000000000)
+Log the generated number into the UrlGenerators table by checking it's uniqueness. If it's already exits generate a new number.
+2. Conver the obtained number into Base62
+3. Make an entry into databse URLs table
+4. Return the the output of Base62 by added a prefix of "lin.ks/"
+
+Sample code to convert the number into Base62
+
+```
+const (
+   base         uint64 = 62
+   characterSet        = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+)
+
+func toBase62(num uint64) string {
+   encoded := ""
+   for num > 0 {
+      rem := num % base
+      num /= base
+      encoded = string(characterSet[rem]) + encoded
+
+   }
+   return encoded
+}
+
 ```
